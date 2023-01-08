@@ -309,7 +309,23 @@ function download(href, name) {
     document.body.removeChild(a);
 }
 function downloadPNG() {
-
+    let width = window.innerWidth;
+    let height = 650;
+    let continut = svg.outerHTML;
+    let blob = new Blob([continut], { type: 'image/svg+xml;charset=utf-8' });
+    let objUrl = URL.createObjectURL(blob);
+    let img = new Image();
+    img.src = objUrl;
+    img.addEventListener('load', () => {
+        let canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        let ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        //obtinem img din canvas:
+        let actualImage = canvas.toDataURL();
+        download(actualImage, 'svgToPng.png');
+    })
 }
 
 function saveLocal() {
